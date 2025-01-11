@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <title>CRISPR Analysis Results</title>
+</head>
+<body>
+    <div class="container">
+        <header class="results-header">
+            <h1>CRISPR Analysis Results</h1>
+        </header>
+
+        <div class="results-container">
+            <div class="result-summary">
+                <h2>Analysis Summary</h2>
+                <p>Analysis results for the provided sequence:</p>
+            </div>
+
+            {% if error %}
+            <div class="error-message">
+                <p>{{ error }}</p>
+            </div>
+            {% else %}
+            <div class="analysis-results">
+                <div class="sequence-info">
+                    <h3>Guide Sequence:</h3>
+                    <code>{{ guide_rnas.sequence }}</code>
+                </div>
+                
+                <div class="scores-grid">
+                    <div class="score-item">
+                        <h4>On-Target Score</h4>
+                        <div class="score-value">{{ "%.2f"|format(guide_rnas.on_target_score) }}</div>
+                    </div>
+                    <div class="score-item">
+                        <h4>Off-Target Score</h4>
+                        <div class="score-value">{{ "%.2f"|format(guide_rnas.off_target_score) }}</div>
+                    </div>
+                    <div class="score-item">
+                        <h4>Overall Score</h4>
+                        <div class="score-value">{{ "%.2f"|format((guide_rnas.on_target_score + guide_rnas.off_target_score) / 2) }}</div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
